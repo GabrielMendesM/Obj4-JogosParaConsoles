@@ -17,9 +17,6 @@ public class GerarObjetos : MonoBehaviour
 
     private static int cont = 0;
 
-    private static double contMedia = 0;
-    private static double media = 0;
-
     private void Start()
     {
         for (int i = 0; i < nObjetos; i++)
@@ -47,6 +44,7 @@ public class GerarObjetos : MonoBehaviour
         cont++;
     }
 
+    /*
     public static void MediaDeExecucao(double tempo)
     {
         contMedia++;
@@ -57,4 +55,5 @@ public class GerarObjetos : MonoBehaviour
             Debug.Log("Média total: " + (media * 10000000));
         }
     }
+    */
 }

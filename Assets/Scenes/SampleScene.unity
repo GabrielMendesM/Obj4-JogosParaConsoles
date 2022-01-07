@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2645366418802154030, guid: cd02556fb62a3da48bb2d7a27114daeb, type: 3}
-  nObjetos: 100
+  nObjetos: 5
   posMin: {x: -15, y: 5, z: -15}
   posMax: {x: 15, y: 50.01, z: 0}
   scaleMin: 1

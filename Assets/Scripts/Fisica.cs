@@ -7,11 +7,6 @@ public class Fisica : MonoBehaviour
     public float vel;
 
     [SerializeField] private float massa;
-    private bool estaNoChao = false;
-
-    private double timer = 0;
-    private float nRodou = 0;
-    private double mediaTimer = 0;
 
     void Start()
     {
@@ -20,28 +15,25 @@ public class Fisica : MonoBehaviour
 
     void Update()
     {
-        timer = Time.realtimeSinceStartupAsDouble;
-
-        if (!estaNoChao && transform.position.y > transform.localScale.y / 2)
-        {
-            Cair();
-
-            nRodou++;
-            timer = Time.realtimeSinceStartupAsDouble - timer;
-            mediaTimer += timer;
-        }
-        else if (!estaNoChao)
-        {
-            //Debug.Log("Cont media individual: " + mediaTimer);
-            estaNoChao = true;
-            GetComponent<MeshRenderer>().material.SetColor("_Color", Random.ColorHSV());
-            mediaTimer /= nRodou;
-            GerarObjetos.MediaDeExecucao(mediaTimer);
-        }
+        Cair();
     }
 
     private void Cair()
     {
-        transform.Translate(vel * Vector3.down * Time.deltaTime, Space.World);
+        if (transform.position.y > transform.localScale.y / 2)
+        {
+            calcularPosicao(-vel, 9.8f, transform.position.y);
+        } else
+        {
+            GetComponent<MeshRenderer>().material.SetColor("_Color", Random.ColorHSV());
+            Destroy(this);
+        }
+    }
+    
+    private void calcularPosicao(float velocidadeAtual, float forca, float posicaoAtual)
+    {
+        float velocidadeFutura = velocidadeAtual + (forca / massa) * Time.deltaTime;
+        float posicaoFutura = posicaoAtual + velocidadeFutura * Time.deltaTime;
+        transform.position = new Vector3(transform.position.x, posicaoFutura, transform.position.z);
     }
 }
