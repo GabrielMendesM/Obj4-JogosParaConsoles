@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fisica : MonoBehaviour
+public class FisicaGPU : MonoBehaviour
 {
     public float vel;
+    public int id;
+    public ComputeShader computeShader;
 
     private bool noChao = false;
     [SerializeField] private float massa;
@@ -35,9 +37,10 @@ public class Fisica : MonoBehaviour
 
             timer = Time.realtimeSinceStartup - timer;
             media += timer;
-        } else if (!noChao)
+        }
+        else if (!noChao)
         {
-            GetComponent<MeshRenderer>().material.SetColor("_Color", Random.ColorHSV());
+            sortearCor();
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
             rb.mass = massa;
 
@@ -50,9 +53,23 @@ public class Fisica : MonoBehaviour
 
             noChao = true;
 
-        } else if (noChao && transform.position.y < -10)
+        }
+        else if (noChao && transform.position.y < -10)
         {
             Destroy(gameObject);
         }
+    }
+
+    private void sortearCor()
+    {
+        GerarObjetos.Esfera dado = GerarObjetos.dados[id];
+        if (dado.cor.r == 0 && dado.cor.g == 0 && dado.cor.b == 0)
+        {
+            dado.cor = Random.ColorHSV();
+        }
+
+        Color _cor = dado.cor;
+        gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", _cor);
+        dado.cor = _cor;
     }
 }

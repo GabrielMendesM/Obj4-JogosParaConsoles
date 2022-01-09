@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RandColorCS : MonoBehaviour
 {
-    
     struct Cube
     {
         public Vector3 position;
@@ -17,10 +16,6 @@ public class RandColorCS : MonoBehaviour
     GameObject[] gameObjects;
     Cube[] data;
     public GameObject modelPref;
-   
-
-
-
 
     // Start is called before the first frame update
     void Start()

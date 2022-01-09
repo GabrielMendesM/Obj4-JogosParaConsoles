@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2645366418802154026}
   - component: {fileID: 2645366418802154027}
   - component: {fileID: 2645366418802154028}
-  - component: {fileID: 5106595996607542922}
+  - component: {fileID: -459867172683355935}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: GPU
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5106595996607542922
+--- !u!114 &-459867172683355935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,8 +105,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2645366418802154030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf10b80a882db304a86ec660cf4ecf4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 476422f9d271b3347a8eca1210c1880c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   vel: 0
   massa: 0
+  computeShader: {fileID: 7200000, guid: ea0cd0140d621b0499fda028bd119374, type: 3}
