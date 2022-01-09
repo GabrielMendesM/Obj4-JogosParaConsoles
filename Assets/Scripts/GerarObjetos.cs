@@ -9,6 +9,7 @@ public class GerarObjetos : MonoBehaviour
         public Color cor;
     }
 
+    [SerializeField] private int iteracoes;
     [SerializeField] ComputeShader computeShader;
     [SerializeField] private GameObject prefabCPU;
     [SerializeField] private GameObject prefabGPU;
@@ -28,20 +29,13 @@ public class GerarObjetos : MonoBehaviour
     private static int contMedia;
     private static float media;
 
-    public static bool sortear { get; set; }
-
     private void Start()
     {
         dados = new Esfera[nObjetos];
-        sortear = false;
     }
 
     private void Update()
     {
-        if (sortear)
-        {
-            sortearCoresGPU();
-        }
     }
 
     private void OnGUI()
@@ -68,15 +62,16 @@ public class GerarObjetos : MonoBehaviour
 
                     criarEsferaGPU(pos, scale);
                 }
+                configurarShader();
             }
-        }
+        }/*
         else
         {
             if (GUI.Button(new Rect(5, 5, 120, 30), "Sortear cores"))
             {
                 sortearCoresGPU();
             }
-        }
+        }*/
     }
 
     private void criarEsferaCPU(Vector3 pos, float scale)
@@ -84,6 +79,7 @@ public class GerarObjetos : MonoBehaviour
         gameObjects.Add(Instantiate(prefabCPU, pos, Quaternion.identity));
         gameObjects[cont].transform.localScale = new Vector3(scale, scale, scale);
         gameObjects[cont].GetComponent<Fisica>().vel = Random.Range(velMin, velMax);
+        gameObjects[cont].GetComponent<Fisica>().iteracoes = iteracoes;
 
         cont++;
     }
@@ -96,6 +92,7 @@ public class GerarObjetos : MonoBehaviour
         fisicaGPU.vel = Random.Range(velMin, velMax);
         fisicaGPU.id = cont;
         fisicaGPU.computeShader = computeShader;
+        fisicaGPU.iteracoes = iteracoes;
 
         dados[cont] = new Esfera();
         dados[cont].posicao = pos;
@@ -104,31 +101,24 @@ public class GerarObjetos : MonoBehaviour
         cont++;
     }
 
-    private void sortearCoresGPU()
+    private void configurarShader()
     {
         int tamanhoTotal = 4 * sizeof(float) + 3 * sizeof(float);
         ComputeBuffer computeBuffer = new ComputeBuffer(dados.Length, tamanhoTotal);
         computeBuffer.SetData(dados);
 
         computeShader.SetBuffer(0, "esferas", computeBuffer);
+        computeShader.SetInt("iteracoes", iteracoes);
 
         computeShader.Dispatch(0, dados.Length / 10, 1, 1);
 
         computeBuffer.GetData(dados);
-
-        /*
+        
         for (int i = 0; i < gameObjects.Count; i++)
         {
-            if (dados[i].cor.r == 0 && dados[i].cor.g == 0 && dados[i].cor.b == 0)
-            {
-                dados[i].cor = Random.ColorHSV();
-            }
-            Color _cor = dados[i].cor;
-
-            gameObjects[i].GetComponent<MeshRenderer>().material.SetColor("_Color", _cor);
-            dados[i].cor = _cor;
+            dados[i].cor = Random.ColorHSV();
         }
-        */
+
         computeBuffer.Dispose();
     }
 
@@ -139,7 +129,7 @@ public class GerarObjetos : MonoBehaviour
         if (contMedia >= cont)
         {
             media /= contMedia;
-            Debug.Log("Média total: " + media);
+            Debug.Log("Média total: " + media * 1000);
         }
     }
 }

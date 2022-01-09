@@ -5,6 +5,7 @@ using UnityEngine;
 public class FisicaGPU : MonoBehaviour
 {
     public float vel;
+    public int iteracoes;
     public int id;
     public ComputeShader computeShader;
 
@@ -63,10 +64,6 @@ public class FisicaGPU : MonoBehaviour
     private void sortearCor()
     {
         GerarObjetos.Esfera dado = GerarObjetos.dados[id];
-        if (dado.cor.r == 0 && dado.cor.g == 0 && dado.cor.b == 0)
-        {
-            dado.cor = Random.ColorHSV();
-        }
 
         Color _cor = dado.cor;
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", _cor);

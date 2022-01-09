@@ -5,6 +5,7 @@ using UnityEngine;
 public class Fisica : MonoBehaviour
 {
     public float vel;
+    public int iteracoes;
 
     private bool noChao = false;
     [SerializeField] private float massa;
@@ -37,7 +38,11 @@ public class Fisica : MonoBehaviour
             media += timer;
         } else if (!noChao)
         {
-            GetComponent<MeshRenderer>().material.SetColor("_Color", Random.ColorHSV());
+            Material mat = GetComponent<MeshRenderer>().material;
+            for (int i = 0; i < iteracoes; i++)
+            {
+                mat.SetColor("_Color", Random.ColorHSV());
+            }
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
             rb.mass = massa;
 

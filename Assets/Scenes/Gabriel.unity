@@ -424,10 +424,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34be01391825b4c479615dd79bea43f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2645366418802154030, guid: cd02556fb62a3da48bb2d7a27114daeb, type: 3}
-  nObjetos: 1000
+  iteracoes: 1000000
+  computeShader: {fileID: 7200000, guid: 5f37ab3be4f34ca4c98bec43e828f62f, type: 3}
+  prefabCPU: {fileID: 2645366418802154030, guid: cd02556fb62a3da48bb2d7a27114daeb, type: 3}
+  prefabGPU: {fileID: 2645366418802154030, guid: aa523faf1984e52408b73363bb085507, type: 3}
+  nObjetos: 100
   posMin: {x: -15, y: 5, z: -15}
-  posMax: {x: 15, y: 50.01, z: 0}
+  posMax: {x: 15, y: 50, z: 0}
   massaMin: 1
   massaMax: 3
   velMin: 10
