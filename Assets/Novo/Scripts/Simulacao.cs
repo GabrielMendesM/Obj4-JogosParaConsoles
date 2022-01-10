@@ -119,7 +119,7 @@ public class Simulacao : MonoBehaviour
             }
         } else
         {
-            if (GUI.Toggle(new Rect(5, 5, 75, 30), true, "Atualizar"))
+            if (GUI.Toggle(new Rect(5, 5, 75, 30), true, ""))
             {
                 ShaderFisica();
             }
