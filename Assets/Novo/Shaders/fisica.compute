@@ -1,0 +1,26 @@
+#pragma kernel CSMain
+
+struct Esfera
+{
+    float3 posicao;
+    float4 cor;
+    float massa;
+    float velocidade;
+    int estaNoChao;
+};
+
+RWStructuredBuffer<Esfera> esferas;
+float deltaTime;
+
+[numthreads(10, 1, 1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    Esfera esfera = esferas[id.x];
+        
+    float velFinal = -esfera.velocidade + (9.8f / esfera.massa) * deltaTime;
+    float posFinal = esfera.posicao.y + velFinal * deltaTime;
+    
+    esfera.posicao = float3(esfera.posicao.x, posFinal, esfera.posicao.z);
+
+    esferas[id.x] = esfera;
+}
