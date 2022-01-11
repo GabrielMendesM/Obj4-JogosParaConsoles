@@ -332,13 +332,13 @@ MonoBehaviour:
   corShader: {fileID: 7200000, guid: 9c1117ca6fd9c95499ef54a1f76c8109, type: 3}
   fisicaShader: {fileID: 7200000, guid: eb53a3c1db055454e8240d8ea52bdac8, type: 3}
   prefab: {fileID: 6765533146775802057, guid: 1d237fc43d679ec4cbd177e5f271d681, type: 3}
-  nObjetos: 100
+  nObjetos: 50
   posMin: {x: -15, y: 5, z: -15}
   posMax: {x: 15, y: 20, z: 0}
   massaMin: 1
   massaMax: 3
   velMin: 10
-  velMax: 15
+  velMax: 20
 --- !u!4 &712463627
 Transform:
   m_ObjectHideFlags: 0

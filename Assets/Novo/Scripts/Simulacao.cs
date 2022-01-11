@@ -32,6 +32,8 @@ public class Simulacao : MonoBehaviour
     private float timer;
     private float media;
 
+    private ComputeBuffer computeBuffer;
+
     private void FixedUpdate()
     {
         nRodou++;
@@ -66,24 +68,26 @@ public class Simulacao : MonoBehaviour
             }
             else
             {
+                ShaderFisica();
+
                 for (int i = 0; i < nObjetos; i++)
                 {
                     if (dados[i].estaNoChao == 0 && esferas[i].transform.position.y > dados[i].massa / 2)
                     {
-                        //ShaderFisica();
                         esferas[i].transform.position = dados[i].posicao;
                     }
                     else if (dados[i].estaNoChao == 0)
                     {
+                        Rigidbody rb = esferas[i].AddComponent<Rigidbody>();
+                        rb.mass = dados[i].massa;
+
+                        dados[i].estaNoChao = 1;
+
                         ShaderCor();
                         Color _cor = dados[i].cor;
                         esferas[i].GetComponent<MeshRenderer>().material.SetColor("_Color", _cor);
                         dados[i].cor = _cor;
 
-                        Rigidbody rb = esferas[i].AddComponent<Rigidbody>();
-                        rb.mass = dados[i].massa;
-
-                        dados[i].estaNoChao = 1;
                     }
                 }
             }
@@ -98,8 +102,14 @@ public class Simulacao : MonoBehaviour
                 }
             }
             MediaDeExecucao();
-            Destroy(gameObject);
+
+            gameObject.SetActive(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (computeBuffer != null) computeBuffer.Dispose();
     }
 
     private void OnGUI()
@@ -116,12 +126,7 @@ public class Simulacao : MonoBehaviour
             {
                 isCPU = false;
                 criarEsferas();
-            }
-        } else
-        {
-            if (GUI.Toggle(new Rect(5, 5, 75, 30), true, ""))
-            {
-                ShaderFisica();
+                configurarShader();
             }
         }
     }
@@ -149,34 +154,29 @@ public class Simulacao : MonoBehaviour
         }
     }
 
-    private void ShaderCor()
+    private void configurarShader()
     {
         int tamanhoTotal = 9 * sizeof(float) + sizeof(int);
-        ComputeBuffer computeBuffer = new ComputeBuffer(dados.Length, tamanhoTotal);
+        computeBuffer = new ComputeBuffer(dados.Length, tamanhoTotal);
+        computeBuffer.SetData(dados);
+    }
+
+    private void ShaderCor()
+    {
         computeBuffer.SetData(dados);
 
         corShader.SetBuffer(0, "esferas", computeBuffer);
         corShader.SetInt("iteracoes", iteracoes);
         corShader.Dispatch(0, dados.Length / 10, 1, 1);
-        
-        computeBuffer.GetData(dados);
-
-        computeBuffer.Dispose();
     }
 
     private void ShaderFisica()
     {
-        int tamanhoTotal = 9 * sizeof(float) + sizeof(int);
-        ComputeBuffer computeBuffer = new ComputeBuffer(dados.Length, tamanhoTotal);
-        computeBuffer.SetData(dados);
-
         fisicaShader.SetBuffer(0, "esferas", computeBuffer);
         fisicaShader.SetFloat("deltaTime", Time.deltaTime);
         fisicaShader.Dispatch(0, dados.Length / 10, 1, 1);
 
         computeBuffer.GetData(dados);
-
-        computeBuffer.Dispose();
     }
      
     public void MediaDeExecucao()
