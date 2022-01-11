@@ -3,7 +3,7 @@ Quarto trabalho da disciplina de Jogos para Consoles do IFRJ, com o professor Jo
 
 Habilidade/Competência: Compreender o conceito de programação paralela em GPU.
 
-Desenvolver um sistema de simulação de física na Unity usando Compute Shader de acordo com o enúnciado propsto pelo professor.
+Desenvolver um sistema de simulação de física na Unity usando "Compute Shader" de acordo com o enunciado proposto pelo professor.
 
 --------------------------------------------------------------------------------
 Grupo:\
